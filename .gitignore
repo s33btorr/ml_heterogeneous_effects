@@ -1,0 +1,7 @@
+# Ignore a specific folder
+__pycache__/
+**/ignore_this/
+
+# Ignore bld and data folders
+**/data/
+**/bld/
