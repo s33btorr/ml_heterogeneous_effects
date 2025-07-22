@@ -5,3 +5,6 @@ __pycache__/
 # Ignore bld and data folders
 **/data/
 **/bld/
+
+# DS STORE
+**/.DS_Store
