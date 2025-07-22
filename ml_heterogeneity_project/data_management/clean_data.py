@@ -24,7 +24,7 @@ def clean_dataset(df):
     }
 
     df_copy = creating_binary_variables(df_copy, dict_of_binary_bigger_equal, dict_of_binary_bigger)
-
+    df_copy = creating_rat_score_and_growthmind(df_copy)
     df_copy = creating_big_five(df_copy)
     df_copy = recode_empathy(df_copy)
 
@@ -33,7 +33,13 @@ def clean_dataset(df):
         'timepreferences': 'ProcrastinationExPost', #Procrastination
         'selfcons_1': 'Social_Anxiety', #Self-consciousness
         'selfcons_2': 'Public_SelfConsciousness', #Self-consciousness
-        'selfcons_3': 'Private_SelfConsciousness' #Self-consciousness
+        'selfcons_3': 'Private_SelfConsciousness', #Self-consciousness
+        'descriptive_1': 'Positive_Reciprocity',
+        'descriptive_3': 'Negative_Reciprocity',
+        'descriptive2_4': 'Altruism',
+        'descriptive_2': 'Trust',
+        'descriptive2_5': 'Risk_Preferences',
+        'descriptive2_51': 'Time_Preferences'
         })    # quite: , inplace=True    SI FALLA, agregar again
 
     df_copy = arrange_mariel_boatlift_treatment(df_copy)
@@ -191,6 +197,8 @@ def generating_indexes(df):
     df["PC1"] = 0.2*df["Public_SelfConsciousness"] + 0.2*df["Private_SelfConsciousness"]+ 0.2*df["neuroticism"]+ 0.2*df["agreeableness"]+ 0.2*df["Social_Anxiety"]
     df["open_to_experience"] = 0.33*df["openness"] + 0.33*df["extraversion"] + 0.33*df["growthmind"]
     df["three_ban"] = (0.33*df["carban_w1"]) + (0.33*df["meatban_w1"]) + (0.33*df["housingban_w1"])
+
+    df['born_in_lux'] = np.where(df['countrybirth1'].isin([1.0]), 1.0, 0.0)
 
     return df
 

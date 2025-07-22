@@ -102,13 +102,17 @@ def printing_some_characteristics(df, model, x_cov, question):
 if __name__ == "__main__":
 
     from pathlib import Path
+    from clean_data import clean_dataset
     from normalizing_df import normalize_data
 
-    SRC = Path(__file__).parent.resolve()
-    data_ready = pd.read_csv(SRC/"data_cleaned.csv") 
+    SRC = Path(__file__).parent.parent.resolve()
+    data_path = SRC / "data" / "waves123_augmented_consent.dta"
+    BLD = SRC / "bld" 
+    waves_data = pd.read_stata(data_path, convert_categoricals=False)
 
-    data_done = data_ready.copy()
-    data_done = normalize_data(data_done)
+    data_after_cleaning = clean_dataset(waves_data)
+    data_done = normalize_data(data_after_cleaning)
+
 
     y_list = ["Q1_1", "Q1_2", "Q2_1", "Q2_2"]
     d_list =["Q1_1_treat", "Q1_2_treat", "Q2_1_treat", "Q2_2_treat"]
