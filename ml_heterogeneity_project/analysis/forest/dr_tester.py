@@ -23,12 +23,13 @@ from train_test_split import split_data
 from causal_forest import generating_causal_forest
 
 
-def cf_drtest(df, treatment, outcome, covariates_names, question, 
-              model_outcome, model_treatment, division_for_cate, percentage_test,
+def cf_drtest(outcome, treatment, covariates_names, question, 
+              model_outcome, model_treatment, 
+              division_for_cate, percentage_test,
               n_trees, min_sample_per_leaf, max_samples, random_seed
               ):
 
-    x_train, x_test, d_train, d_test, y_train, y_test = split_data(df, treatment, outcome, covariates_names, percentage_test)
+    x_train, x_test, d_train, d_test, y_train, y_test = split_data(treatment, outcome, covariates_names, percentage_test)
     model = generating_causal_forest(model_outcome, model_treatment, n_trees, min_sample_per_leaf, max_samples, random_seed, y_train, d_train, x_train)
 
     x_train_t = x_train.to_numpy()
@@ -54,8 +55,8 @@ def cf_drtest(df, treatment, outcome, covariates_names, question,
 
     res_cf = cf_tester.evaluate_all(x_test_t, x_train_t, n_groups=division_for_cate)
 
-    # ESTO HABRIA QUE VER COMO SE GUARDA
     print(res_cf.summary())
+
 
     res_cf.plot_cal(1)
     plt.savefig(f'bld/cal_plot_question{question}.png', dpi=300, bbox_inches='tight')
