@@ -6,11 +6,11 @@ import numpy as np
 # esta funcion usa train_test_split para dividir la data y ya transformarla a numpy (quiza deberia ser otra
 #funcion, no se), y tambien hace el round pq con la data normalizada, no funciona sin eso
 
-def split_data(df, treatment, outcome, covariates_names, percentage_test): # quite question pq la impresion ya no esta, pero quiza viene bien para evaluar si anda todo bien
+def split_data(treatment, outcome, covariates, percentage_test): # quite question pq la impresion ya no esta, pero quiza viene bien para evaluar si anda todo bien
     
-    d = df[treatment].astype(int)
-    y = df[outcome]
-    x_cov = df[covariates_names] # dataframe pq son muchas
+    d = treatment.astype(int)
+    y = outcome
+    x_cov = covariates # dataframe pq son muchas
     
     x_train, x_test, d_train, d_test, y_train, y_test = train_test_split(
         x_cov,
@@ -56,24 +56,28 @@ if __name__ == "__main__":
     data_done = data_ready.copy()
     data_done = normalize_data(data_done)
 
-    #data_done = data_done[data_done['gender'].notna()] # quitar, se debe agregar en el data cleaning
+    y_1 = data_1["Q1_1"]
+    z_1 = data_1["Q1_1_treat"].astype(int)
 
-    # mi idea seria exportar esta funcion de split_data cada vez que la necesito y eta funcion me agarra directamente las 4 preguntas
+    y_2 = data_1["Q1_2"]
+    z_2 = data_1["Q1_2_treat"].astype(int)
 
+    y_3 = data_1["Q2_1"]
+    z_3 = data_1["Q2_1_treat"].astype(int)
 
-    t_list = ['Q1_1_treat', 'Q1_2_treat', 'Q2_1_treat', 'Q2_2_treat']
-    y_list = ['Q1_1', 'Q1_2', 'Q2_1', 'Q2_2']
+    y_4 = data_1["Q2_2"]
+    z_4 = data_1["Q2_2_treat"].astype(int)
 
-    covariates_names = ["employment", "education", "age", "female", "houseowner", "financialwellbeing", "optimism_bias", "scale_sufficiency", "openness", "conscientiousness",
-                "extraversion", "agreeableness", "neuroticism", "rationality_score", "growthmind",
-                'Positive_Reciprocity', 'Negative_Reciprocity', 'Altruism', 'Trust', 'Risk_Preferences', 'Time_Preferences', "Social_Anxiety",
-                "Public_SelfConsciousness", "Private_SelfConsciousness", "ProcrastinationExAnte", "ProcrastinationExPost", "empathic_concern_score", "perspective_taking_score"]
+    talk_list_1 = ["open_to_experience", "PC1", "empathic_concern_score", "Altruism", 
+                "Positive_Reciprocity", "Negative_Reciprocity", "Trust", "Risk_Preferences",
+                "rationality_score", "optimism_bias", "three_tax", "three_ban",
+                "education", "age", "financialwellbeing", "born_in_lux"]
 
-    my_list_4 = ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism",
-             "world_issues", "trust_in_science", "empathic_concern_score", "three_tax",
-             "born_in_lux", "age", "education", "financialwellbeing"
-                ]
-    
-    for i,j,k in zip(t_list, y_list, my_list_4):
-        split_data(data_done, i, j, k, 0.4)
+    x_cov = data_1[talk_list_1]
+
+    outcome_list = [y_1, y_2, y_3, y_4]
+    d_var_list = [z_1, z_2, z_3, z_4]
+
+    for i,j in zip(d_var_list, outcome_list):
+        split_data(i, j, x_cov, 0.4)
 
