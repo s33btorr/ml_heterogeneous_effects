@@ -137,15 +137,7 @@ if __name__ == "__main__":
 
     outcome_list = [y_1, y_2, y_3, y_4]
 
-    # habria que cambiar estas funciones para que tb agarren la dataset...como en dr test
-    for y, q in zip(outcome_list, range(1,5)):
-        #model = generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d_var, x_cov)
-        generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d_var, x_cov)
-        #graph_distribution_indiv_treatment(model, x_cov, q)
+    for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
+            model = generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d, x_cov)
+            graph_distribution_indiv_treatment(model, x_cov, q)
 
-
-        # SOME INTERPRETATION GRAPHS
-        #graph_importance_variables(model, x_cov, q)
-        #graph_representative_tree(model, x_cov, my_list_4, q, 3, 10, 23)
-        #printing_some_characteristics(data_done, model, x_cov, q)
-    
