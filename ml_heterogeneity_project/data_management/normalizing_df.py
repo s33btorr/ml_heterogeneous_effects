@@ -5,6 +5,8 @@ from pathlib import Path
 
 
 def normalize_data(df):
+    """ Normalizes the data frame, converting the values bewteen 0 and 1. """
+
     data_normalizada = df.copy()
     num_cols = data_normalizada.select_dtypes(include=['number']).columns
     scaler = MinMaxScaler()
@@ -14,13 +16,17 @@ def normalize_data(df):
 
 if __name__ == "__main__":
 
-    SRC = Path(__file__).parent.resolve()
-    data_ready = pd.read_csv(SRC/"data_cleaned.csv") 
+    from pathlib import Path
+    from clean_data import clean_dataset
 
-    data_done = data_ready.copy()
-    #data_done = data_done[data_done['gender'].notna()]
+    SRC = Path(__file__).parent.parent.resolve()
+    data_path = SRC / "data" / "waves123_augmented_consent.dta"
+    BLD = SRC / "bld" 
+    waves_data = pd.read_stata(data_path, convert_categoricals=False)
 
-    normalize_data(data_done).to_csv("data_normalized.csv")
+    data_after_cleaning = clean_dataset(waves_data)
+    normalize_data(data_after_cleaning).to_csv(BLD / "data_normalized.csv")
+    
 
 # Cosas que pueden fallar en esta funcion:
     # que se cambien columnas sin nan

@@ -205,10 +205,12 @@ if __name__ == "__main__":
 
     SRC = Path(__file__).parent.parent.resolve()
     data_path = SRC / "data" / "waves123_augmented_consent.dta"
+    BLD = SRC / "bld" 
     waves_data = pd.read_stata(data_path, convert_categoricals=False)
 
     data_after_cleaning = clean_dataset(waves_data)
 
+    data_after_cleaning.to_csv(BLD / "data_cleaned.csv")
     N = len(data_after_cleaning)
     print("Number of participants (rows):", N)
 
