@@ -5,8 +5,8 @@ import pandas as pd
 from pathlib import Path
 
 ### 1. We call the functions generated (explained better in each file, look at them for more info). ###
-from clean_data import clean_dataset
-from normalizing_df import normalize_data
+from data_management.clean_data import clean_dataset
+from data_management.normalizing_df import normalize_data
 from causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics
 from dr_tester import cf_drtest
 
