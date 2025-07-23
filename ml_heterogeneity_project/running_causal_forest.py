@@ -7,11 +7,11 @@ from pathlib import Path
 ### 1. We call the functions generated (explained better in each file, look at them for more info). ###
 from data_management.clean_data import clean_dataset
 from data_management.normalizing_df import normalize_data
-from causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics
-from dr_tester import cf_drtest
+from analysis.forest.causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics
+from analysis.forest.dr_tester import cf_drtest
 
 #### 2. We define the path of our data and read it. ###
-SRC = Path(__file__).parent.parent.resolve()
+SRC = Path(__file__).parent.resolve()
 data_path = SRC / "data" / "waves123_augmented_consent.dta"
 BLD = SRC / "bld" 
 waves_data = pd.read_stata(data_path, convert_categoricals=False)
@@ -27,17 +27,17 @@ model_regression = RandomForestRegressor(random_state=23)
 model_propensity = RandomForestClassifier(random_state=23)
 
 # Q1 outcome and treatment columns
-y_1 = data_1["Q1_1"]
-z_1 = data_1["Q1_1_treat"].astype(int)
+y_1 = data_done["Q1_1"]
+z_1 = data_done["Q1_1_treat"].astype(int)
 # Q2 outcome and treatment columns
-y_2 = data_1["Q1_2"]
-z_2 = data_1["Q1_2_treat"].astype(int)
+y_2 = data_done["Q1_2"]
+z_2 = data_done["Q1_2_treat"].astype(int)
 # Q3 outcome and treatment columns
-y_3 = data_1["Q2_1"]
-z_3 = data_1["Q2_1_treat"].astype(int)
+y_3 = data_done["Q2_1"]
+z_3 = data_done["Q2_1_treat"].astype(int)
 # Q4 outcome and treatment columns
-y_4 = data_1["Q2_2"]
-z_4 = data_1["Q2_2_treat"].astype(int)
+y_4 = data_done["Q2_2"]
+z_4 = data_done["Q2_2_treat"].astype(int)
 
 # List of names for covariates columns
 talk_list_1 = ["open_to_experience", "PC1", "empathic_concern_score", "Altruism", 
@@ -46,7 +46,7 @@ talk_list_1 = ["open_to_experience", "PC1", "empathic_concern_score", "Altruism"
                "education", "age", "financialwellbeing", "born_in_lux"]
 
 # DataFrame with for covariates columns
-x_cov = data_1[talk_list_1]
+x_cov = data_done[talk_list_1]
 
 ### 5. Now we want to predict the individual treatment effects on the sample AND graph it in a distribution. ###
 
@@ -56,8 +56,8 @@ d_var_list = [z_1, z_2, z_3, z_4]
 
 # We iterate, this could also just be done separately by just errasing the loop and choosing manually the variables.
 for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
-        model = generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d, x_cov)
-        graph_distribution_indiv_treatment(model, x_cov, q)
+    model = generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d, x_cov)
+    graph_distribution_indiv_treatment(model, x_cov, q)
 
 ### 6. Given the importance of the test, we divide our sample into test and train and do a DRTest of our model. ###
 # Again, looping to get the outcomes for the 4 questions.

@@ -75,16 +75,16 @@ def graph_distribution_indiv_treatment(model, x_cov, n_question):
         n_question (int): Number of the question that has the outcome.
     """
 
-   ate_cf = model.ate(x_cov)
-   cate = model.effect(x_cov)
-   sns.histplot(cate, bins=15, color='lightgray', edgecolor='black')
-   plt.title(f'Question {n_question}: Histogram of estimated CATE')
-   plt.xlabel("Estimated CATE")
-   plt.ylabel("Frequency")
-   plt.axvline(ate_cf, color="green", linestyle="--", label=f'ATE={ate_cf:.2f}')
-   plt.legend()
-   plt.savefig(f'bld/predicted_cate_question{n_question}.png', dpi=300)
-   plt.close()
+    ate_cf = model.ate(x_cov)
+    cate = model.effect(x_cov)
+    sns.histplot(cate, bins=15, color='lightgray', edgecolor='black')
+    plt.title(f'Question {n_question}: Histogram of estimated CATE')
+    plt.xlabel("Estimated CATE")
+    plt.ylabel("Frequency")
+    plt.axvline(ate_cf, color="green", linestyle="--", label=f'ATE={ate_cf:.2f}')
+    plt.legend()
+    plt.savefig(f'bld/predicted_cate_question{n_question}.png', dpi=300)
+    plt.close()
 
 
 # ESTE IRIA CON LS GRFICAS FINALES TB o no?
