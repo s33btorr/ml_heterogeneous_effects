@@ -1,5 +1,12 @@
 Hey, Felix!
 
+1. Run generating folders. put dta in data folder.
+
+
+
+
+
+
 Here are the istructions for running this project (at least until now) and is by running all commands in your terminal:
 
 0. Before everything, add to the big folder the data I send you on private. There are 2 files: "waves123_augmented_consent.dta" and "data_normalized_fr". AND generate an empty folder also in the same space called: bld. You can do this also like this:
