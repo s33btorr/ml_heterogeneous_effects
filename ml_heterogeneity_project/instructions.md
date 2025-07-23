@@ -1,8 +1,9 @@
 Hey, Felix!
 
-1. Run generating folders. put dta in data folder.
+1. cd RUTA A ml_heterogeneity_project
+2. Run generating folders. put dta in data folder.
 
-2. cd RUTA A ml_heterogeneity_project
+ 
 
 
 

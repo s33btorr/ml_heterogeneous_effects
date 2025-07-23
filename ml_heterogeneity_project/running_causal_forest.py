@@ -3,6 +3,7 @@
 
 import pandas as pd 
 from pathlib import Path
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, RandomForestRegressor
 
 ### 1. We call the functions generated (explained better in each file, look at them for more info). ###
 from data_management.clean_data import clean_dataset
@@ -45,6 +46,9 @@ talk_list_1 = ["open_to_experience", "PC1", "empathic_concern_score", "Altruism"
                "rationality_score", "optimism_bias", "three_tax", "three_ban",
                "education", "age", "financialwellbeing", "born_in_lux"]
 
+# We just define the selected list here
+selected_list = talk_list_1
+
 # DataFrame with for covariates columns
 x_cov = data_done[talk_list_1]
 
@@ -73,7 +77,7 @@ for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
 
 for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
     graph_importance_variables(model, x_cov, q)
-    graph_representative_tree(model, x_cov, new_list_1, q, 3, 10, 23)
+    graph_representative_tree(model, x_cov, selected_list, q, 3, 10, 23)
 
 # If you want to do with only some part of the sample, use function from train_test_split.py,
 # then train a model only with this data and use this model for the graphs.

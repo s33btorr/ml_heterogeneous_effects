@@ -19,8 +19,8 @@ from econml.metalearners import TLearner
 from econml.dml import DML
 from econml.validate.drtester import DRTester
 
-from train_test_split import split_data
-from causal_forest import generating_causal_forest
+from analysis.forest.train_test_split import split_data
+from analysis.forest.causal_forest import generating_causal_forest
 
 
 def cf_drtest(outcome, treatment, covariates, question, 
