@@ -8,7 +8,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, 
 ### 1. We call the functions generated (explained better in each file, look at them for more info). ###
 from data_management.clean_data import clean_dataset
 from data_management.normalizing_df import normalize_data
-from analysis.forest.causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics
+from analysis.forest.causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics, calculate_RScorer
 from analysis.forest.dr_tester import cf_drtest
 
 #### 2. We define the path of our data and read it. ###
@@ -59,9 +59,13 @@ outcome_list = [y_1, y_2, y_3, y_4]
 d_var_list = [z_1, z_2, z_3, z_4]
 
 # We iterate, this could also just be done separately by just errasing the loop and choosing manually the variables.
+# We also have the RScorer, if it is negative it indicates that cate model performs worse than a constant model
+# which could mean that there is overfitting.
+
 for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
     model = generating_causal_forest(model_regression, model_propensity, 100, 10, 0.5, 23, y, d, x_cov)
     graph_distribution_indiv_treatment(model, x_cov, q)
+    calculate_RScorer(model_regression, model_propensity, d, y, x_cov, 0.4, model)
 
 ### 6. Given the importance of the test, we divide our sample into test and train and do a DRTest of our model. ###
 # Again, looping to get the outcomes for the 4 questions.
