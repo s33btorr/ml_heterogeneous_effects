@@ -15,6 +15,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats as st
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, RandomForestRegressor
+from econml.score import RScorer
+
+from analysis.forest.train_test_split import split_data
 
 
 
@@ -165,6 +168,17 @@ def printing_some_characteristics(df, model, x_cov, question):
     print("Mean female for group 2:", round(grupo_alto_df["female_created"].mean(), 2))
     print("Mean education for group 1:", round(grupo_bajo_df["education"].mean(), 2))
     print("Mean education for group 2:", round(grupo_alto_df["education"].mean(), 2))
+
+def calculate_RScore(model_y, model_t, treatment, outcome, covariates, percentage_test, model):
+
+    x_train, x_test, d_train, d_test, y_train, y_test = split_data(treatment, outcome, covariates, percentage_test)
+
+    scorer = RScorer(model_y=reg(), model_t=clf(),
+                    discrete_treatment=True, cv=3,
+                    mc_iters=3, mc_agg='median')
+    scorer.fit(y_test, d_test, X=x_test)
+
+    print(scorer.score(model))
 
 
 if __name__ == "__main__":
