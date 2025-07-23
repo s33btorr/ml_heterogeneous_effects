@@ -7,7 +7,22 @@ import numpy as np
 #funcion, no se), y tambien hace el round pq con la data normalizada, no funciona sin eso
 
 def split_data(treatment, outcome, covariates, percentage_test): # quite question pq la impresion ya no esta, pero quiza viene bien para evaluar si anda todo bien
-    
+    """ Splits Data into Test and Train.
+
+    Args:
+        treatment (column): Column that represents the treatment.
+
+        outcome (column): Column that represents the outcome.
+
+        x_cov (DataFrame): DataFrame of all columns representing the covariates.
+
+        percentage_test (float): Percentage of the test sample.
+
+    Returns:
+        x_train, x_test, d_train, d_test, y_train, y_test (DataFrames):
+        It returns all the sample already splitted.
+    """
+
     d = treatment.astype(int)
     y = outcome
     x_cov = covariates # dataframe pq son muchas
