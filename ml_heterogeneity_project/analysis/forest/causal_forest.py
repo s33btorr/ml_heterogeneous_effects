@@ -19,6 +19,34 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, 
 
 
 def generating_causal_forest(model_outcome, model_treatment, n_trees, min_sample_per_leaf, max_samples, random_seed, outcome, treatment, x_cov):
+    """ Generates a Causal Forest.
+
+    Args:
+        model_outcome (object): Model that predicts the Outcome,
+        it can be selected from EconML documentation.
+
+        model_treatment (object): Model that predicts the Treatment,
+        it can be selected from EconML documentation.
+
+        n_trees (int): Number of trees wanted in the forest.
+
+        min_sample_per_leaf (int): Minimum number of observations per leaf.
+
+        max_samples (float): In how much the data should be splitted when
+        doing the forest. The maximum allowed is 0.5 given Honesty.
+
+        random_seed (int): Seed for reproducibility.
+
+        outcome (column): Column that represents the outcome.
+
+        treatment (column): Column that represents the treatment.
+
+        x_cov (DataFrame): DataFrame of all columns representing the covariates.
+
+    Returns:
+        model(object): Trained model that can be used later for graphs or tests.
+    """
+
     model = CausalForest(
         model_y=model_outcome,
         model_t=model_treatment,
@@ -26,7 +54,7 @@ def generating_causal_forest(model_outcome, model_treatment, n_trees, min_sample
         discrete_treatment=True,
         criterion="het",
         min_samples_leaf=min_sample_per_leaf,
-        max_samples=max_samples, #QUE ERA ESTO? Al saber, cambiar arriba el nombre a algo logico
+        max_samples=max_samples,
         random_state=random_seed
     ).fit(outcome, treatment, X=x_cov)
 
@@ -36,6 +64,17 @@ def generating_causal_forest(model_outcome, model_treatment, n_trees, min_sample
 
 # ESTE SE IRIA A OTRO PY o no?
 def graph_distribution_indiv_treatment(model, x_cov, n_question):
+    """ Generates a graph with the distribution of predictions made by
+    the Causal Forest model.
+
+    Args:
+        model (object): Model trained previously.
+        
+        x_cov (DataFrame): DataFrame of all columns representing the covariates.
+
+        n_question (int): Number of the question that has the outcome.
+    """
+
    ate_cf = model.ate(x_cov)
    cate = model.effect(x_cov)
    sns.histplot(cate, bins=15, color='lightgray', edgecolor='black')
@@ -51,6 +90,17 @@ def graph_distribution_indiv_treatment(model, x_cov, n_question):
 # ESTE IRIA CON LS GRFICAS FINALES TB o no?
 # no se si estos se deberian hacer con train solo o con el total, ahora se andan haciendo con el total
 def graph_importance_variables(model, x_cov, question):
+    """ Generates a graph with "importance" of each variable given
+    how much it was selected for a split during the Causal Forest.
+
+    Args:
+        model (object): Model trained previously.
+        
+        x_cov (DataFrame): DataFrame of all columns representing the covariates.
+
+        question (int): Number of the question that has the outcome.
+    """
+
     importances = model.feature_importances_
     features = x_cov.columns
     plt.barh(features, importances)
@@ -59,6 +109,24 @@ def graph_importance_variables(model, x_cov, question):
     plt.close()
 
 def graph_representative_tree(model, x_cov, covariates_names, question, tree_depth, min_per_leaf, random_seed):
+    """ Generates a graph with a representative tree of Causal Forest.
+
+    Args:
+        model (object): Model trained previously.
+        
+        x_cov (DataFrame): DataFrame of all columns representing the covariates.
+
+        covariates_names (list): List of the names of the covariates columns.
+
+        question (int): Number of the question that has the outcome.
+
+        tree_depth (int): Number indicating how deep the tree will be.
+
+        min_per_leaf (int): Minimum observations in each leave.
+
+        random_seed (int): Random seed for reproducibility.
+    """
+
     intrp = SingleTreeCateInterpreter(include_model_uncertainty=True, max_depth=tree_depth, min_samples_leaf=min_per_leaf, random_state=random_seed)
     intrp.interpret(model, x_cov)
     intrp.plot(feature_names=covariates_names)
