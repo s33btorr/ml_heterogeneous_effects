@@ -61,7 +61,7 @@ def generating_causal_forest(model_outcome, model_treatment, n_trees, min_sample
         random_state=random_seed
     ).fit(outcome, treatment, X=x_cov)
 
-    print(model.summary()) #quitar
+    #print(model.summary()) #quitar
     return model
 
 
@@ -178,7 +178,7 @@ def calculate_RScorer(model_y, model_t, treatment, outcome, covariates, percenta
                     mc_iters=3, mc_agg='median')
     scorer.fit(y_test, d_test, X=x_test)
 
-    print(f'RScore: {scorer.score(model)})
+    print(f'RScore: {scorer.score(model)}')
 
 
 if __name__ == "__main__":
