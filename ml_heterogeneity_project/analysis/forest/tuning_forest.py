@@ -5,7 +5,7 @@ import pandas as pd
 from analysis.forest.causal_forest import generating_causal_forest
 from analysis.forest.train_test_split import split_data
 
-def tunning_causal_forest(n_estimators_grid, min_samples_leaf_grid, subsample_fr_grid,
+def tuning_causal_forest(n_estimators_grid, min_samples_leaf_grid, subsample_fr_grid,
                         treatment, outcome, covariates, percentage_test,
                         model_outcome, model_treatment, random_seed):
 

@@ -5,7 +5,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingRegressor, 
 from data_management.clean_data import clean_dataset
 from data_management.normalizing_df import normalize_data
 from analysis.forest.causal_forest import generating_causal_forest, graph_distribution_indiv_treatment, graph_importance_variables, graph_representative_tree, printing_some_characteristics, calculate_RScorer
-from analysis.forest.tunning_forest import tunning_causal_forest
+from analysis.forest.tuning_forest import tuning_causal_forest
 
 SRC = Path(__file__).parent.resolve()
 data_path = SRC / "data" / "waves123_augmented_consent.dta"
@@ -44,6 +44,6 @@ division_sample = [0.2, 0.3, 0.45, 0.5] # Number of samples to use for each subs
 
 for y, d, q in zip(outcome_list, d_var_list, range(1,5)):
     print(f'Question{q}')
-    tunning_causal_forest(n_trees, min_obs_leaf, division_sample,
+    tuning_causal_forest(n_trees, min_obs_leaf, division_sample,
                         d, y, x_cov, 0.4,
                         model_regression, model_propensity, 23)
