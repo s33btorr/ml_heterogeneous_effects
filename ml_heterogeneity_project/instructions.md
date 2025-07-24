@@ -3,8 +3,9 @@ Hey, Felix!
 1. cd RUTA A ml_heterogeneity_project
 2. Run generating folders. put dta in data folder.
 
- 
-
+3. python running_causal_forest.py  
+4. python running_tunning_forest.py
+5. 
 
 
 
