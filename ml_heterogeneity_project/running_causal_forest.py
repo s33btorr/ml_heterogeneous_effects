@@ -41,16 +41,17 @@ y_4 = data_done["Q2_2"]
 z_4 = data_done["Q2_2_treat"].astype(int)
 
 # List of names for covariates columns
-talk_list_1 = ["open_to_experience", "PC1", "empathic_concern_score", "Altruism", 
-               "Positive_Reciprocity", "Negative_Reciprocity", "Trust", "Risk_Preferences",
-               "rationality_score", "optimism_bias", "three_tax", "three_ban",
-               "education", "age", "financialwellbeing", "born_in_lux"]
+# This is one list of covariates, IF YOU WANT TO DO ANOTHER ONE BE SURE OF ADDING THE NAME HERE***
+talk_list_1 = ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism",
+                "Altruism", "Positive_Reciprocity", "Negative_Reciprocity", "Trust", 
+                "Risk_Preferences", "Time_Preferences", "Social_Anxiety", "optimism_bias",
+                "education", "age", "financialwellbeing", "born_in_lux", "urban", "children"]
 
-# We just define the selected list here
+# We just define the selected list here ***HERE
 selected_list = talk_list_1
 
 # DataFrame with for covariates columns
-x_cov = data_done[talk_list_1]
+x_cov = data_done[selected_list]
 
 ### 5. Now we want to predict the individual treatment effects on the sample AND graph it in a distribution. ###
 
